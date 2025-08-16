@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Football Bot - Status</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            max-width: 600px;
+            width: 90%;
+        }
+        
+        .status-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .status-text {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: #4ade80;
+            font-weight: 600;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .info-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .footer {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status-icon">⚽</div>
+        <h1>Discord Football Bot</h1>
+        <div class="status-text">🟢 Bot is Running</div>
+        
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">Status</div>
+                <div class="info-value">Online</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Commands</div>
+                <div class="info-value">15+</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Language</div>
+                <div class="info-value">English</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Platform</div>
+                <div class="info-value">Discord</div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <div class="feature-title">Club Management</div>
+                <div class="feature-desc">Create and manage football clubs with budgets and players</div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⚽</div>
+                <div class="feature-title">Player System</div>
+                <div class="feature-desc">Add players with positions, ages, and market values</div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <div class="feature-title">Transfer Market</div>
+                <div class="feature-desc">Handle player transfers between clubs with realistic fees</div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🏟️</div>
+                <div class="feature-title">Match Scheduling</div>
+                <div class="feature-desc">Schedule matches with automatic reminders</div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">Statistics</div>
+                <div class="feature-desc">Comprehensive analytics and club comparisons</div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <div class="feature-title">Admin Controls</div>
+                <div class="feature-desc">Full administrative control with backup system</div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Professional Discord Bot for Football Club Management</p>
+            <p>Ready to handle all your league administration needs!</p>
+        </div>
+    </div>
+</body>
+</html>
