@@ -191,6 +191,54 @@ class ClubCommands:
             
             await interaction.response.send_message(embed=embed)
         
+        @self.bot.tree.command(name="clear_club", description="Delete a club completely")
+        @app_commands.describe(club_id="ID of the club to delete")
+        async def clear_club(interaction: discord.Interaction, club_id: int):
+            if not interaction.user.guild_permissions.administrator:
+                await interaction.response.send_message("❌ Only administrators can use this command!", ephemeral=True)
+                return
+            
+            clubs = self.data.load_clubs()
+            players = self.data.load_players()
+            
+            club = next((c for c in clubs if c['id'] == club_id), None)
+            if not club:
+                await interaction.response.send_message(f"❌ Club with ID {club_id} not found!", ephemeral=True)
+                return
+            
+            # Find players in this club
+            club_players = [p for p in players if p.get('club_id') == club_id]
+            
+            # Remove club players completely
+            players = [p for p in players if p.get('club_id') != club_id]
+            self.data.save_players(players)
+            
+            # Remove club
+            clubs = [c for c in clubs if c['id'] != club_id]
+            self.data.save_clubs(clubs)
+            
+            embed = discord.Embed(
+                title="🗑️ Club Deleted",
+                description=f"**{club['name']}** has been completely deleted!",
+                color=0xff0000
+            )
+            embed.add_field(name="🏆 Club", value=club['name'], inline=True)
+            embed.add_field(name="👥 Players Deleted", value=str(len(club_players)), inline=True)
+            embed.add_field(name="📊 Status", value="Club and all players removed", inline=True)
+            
+            if club_players:
+                if len(club_players) <= 10:
+                    player_list = "\n".join([f"• {p['name']}" for p in club_players])
+                    embed.add_field(name="🎯 Deleted Players", value=player_list, inline=False)
+                else:
+                    player_list = "\n".join([f"• {p['name']}" for p in club_players[:10]])
+                    player_list += f"\n... and {len(club_players) - 10} more players"
+                    embed.add_field(name="🎯 Deleted Players", value=player_list, inline=False)
+            
+            embed.set_footer(text=f"Club deleted by {interaction.user.display_name}")
+            
+            await interaction.response.send_message(embed=embed)
+        
         @self.bot.tree.command(name="set_club_role", description="Assign a Discord role to a club")
         @app_commands.describe(
             club_id="ID of the club",
