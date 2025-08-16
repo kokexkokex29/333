@@ -307,6 +307,58 @@ class PlayerCommands:
             
             await interaction.response.send_message(embed=embed)
         
+        @self.bot.tree.command(name="remove_player_from_club", description="Remove a player from a specific club")
+        @app_commands.describe(
+            player_id="ID of the player to remove",
+            club_id="ID of the club to remove player from"
+        )
+        async def remove_player_from_club(interaction: discord.Interaction, player_id: int, club_id: int):
+            if not interaction.user.guild_permissions.administrator:
+                await interaction.response.send_message("❌ Only administrators can use this command!", ephemeral=True)
+                return
+            
+            players = self.data.load_players()
+            clubs = self.data.load_clubs()
+            
+            player = next((p for p in players if p['id'] == player_id), None)
+            club = next((c for c in clubs if c['id'] == club_id), None)
+            
+            if not player:
+                await interaction.response.send_message(f"❌ Player with ID {player_id} not found!", ephemeral=True)
+                return
+            
+            if not club:
+                await interaction.response.send_message(f"❌ Club with ID {club_id} not found!", ephemeral=True)
+                return
+            
+            if player.get('club_id') != club_id:
+                current_club = "Free Agent"
+                if player.get('club_id'):
+                    current_club_obj = next((c for c in clubs if c['id'] == player['club_id']), None)
+                    current_club = current_club_obj['name'] if current_club_obj else "Unknown Club"
+                await interaction.response.send_message(f"❌ **{player['name']}** is not in **{club['name']}**! Currently in: {current_club}", ephemeral=True)
+                return
+            
+            # Remove player from club
+            player['club_id'] = None
+            self.data.save_players(players)
+            
+            embed = discord.Embed(
+                title="🚫 Player Removed from Club",
+                description=f"**{player['name']}** has been removed from **{club['name']}**!",
+                color=0xff9900
+            )
+            embed.add_field(name="⚽ Player", value=player['name'], inline=True)
+            embed.add_field(name="🏆 From Club", value=club['name'], inline=True)
+            embed.add_field(name="💰 Player Value", value=f"€{player['value']:,}", inline=True)
+            embed.add_field(name="📊 New Status", value="Free Agent", inline=True)
+            embed.add_field(name="🎯 Position", value=player['position'], inline=True)
+            embed.add_field(name="🎂 Age", value=f"{player['age']} years", inline=True)
+            
+            embed.set_footer(text=f"Player removed by {interaction.user.display_name}")
+            
+            await interaction.response.send_message(embed=embed)
+        
         @self.bot.tree.command(name="release_player", description="Release a player from their club")
         @app_commands.describe(player_id="ID of the player to release")
         async def release_player(interaction: discord.Interaction, player_id: int):
