@@ -70,7 +70,8 @@ class MatchScheduler:
             )
             
             embed.add_field(name="⏰ Starting In", value="5 minutes", inline=True)
-            embed.add_field(name="📅 Time", value=match_datetime.strftime("%H:%M"), inline=True)
+            timestamp = int(match_datetime.timestamp())
+            embed.add_field(name="📅 Time", value=f"<t:{timestamp}:t>", inline=True)
             embed.add_field(name="🆔 Match ID", value=match['id'], inline=True)
             
             embed.add_field(name="🏆 Teams", value=f"{club1['name']} vs {club2['name']}", inline=False)
