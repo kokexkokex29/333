@@ -87,8 +87,9 @@ class MatchCommands:
             embed.add_field(name="🏆 Away Team", value=club2['name'], inline=True)
             embed.add_field(name="🆔 Match ID", value=match_data['id'], inline=True)
             
-            embed.add_field(name="📅 Date", value=match_datetime.strftime("%B %d, %Y"), inline=True)
-            embed.add_field(name="⏰ Time", value=match_datetime.strftime("%H:%M"), inline=True)
+            timestamp = int(match_datetime.timestamp())
+            embed.add_field(name="📅 Date & Time", value=f"<t:{timestamp}:F>", inline=True)
+            embed.add_field(name="⏰ Time Until", value=f"<t:{timestamp}:R>", inline=True)
             embed.add_field(name="📢 Status", value="Scheduled", inline=True)
             
             embed.set_footer(text=f"Match created by {interaction.user.display_name}")
@@ -136,7 +137,8 @@ class MatchCommands:
                 
                 try:
                     match_dt = datetime.fromisoformat(match['datetime'])
-                    date_str = match_dt.strftime("%b %d, %Y at %H:%M")
+                    timestamp = int(match_dt.timestamp())
+                    date_str = f"<t:{timestamp}:f>"
                 except:
                     date_str = "Invalid date"
                 
@@ -167,18 +169,10 @@ class MatchCommands:
             
             try:
                 match_dt = datetime.fromisoformat(match['datetime'])
-                date_str = match_dt.strftime("%B %d, %Y")
-                time_str = match_dt.strftime("%H:%M")
-                
-                # Calculate time until match
-                time_diff = match_dt - datetime.now()
-                if time_diff.total_seconds() > 0:
-                    days = time_diff.days
-                    hours, remainder = divmod(time_diff.seconds, 3600)
-                    minutes, _ = divmod(remainder, 60)
-                    time_until = f"{days}d {hours}h {minutes}m"
-                else:
-                    time_until = "Match time has passed"
+                timestamp = int(match_dt.timestamp())
+                date_str = f"<t:{timestamp}:D>"
+                time_str = f"<t:{timestamp}:t>"
+                time_until = f"<t:{timestamp}:R>"
             except:
                 date_str = "Invalid date"
                 time_str = "Invalid time"
@@ -296,8 +290,8 @@ class MatchCommands:
 ⚽ **New Match Scheduled!**
 
 🏆 **Teams:** {club1['name']} vs {club2['name']}
-📅 **Date:** {match_datetime.strftime("%B %d, %Y")}
-⏰ **Time:** {match_datetime.strftime("%H:%M")}
+📅 **Date & Time:** <t:{int(match_datetime.timestamp())}:F>
+⏰ **Time Until:** <t:{int(match_datetime.timestamp())}:R>
 🆔 **Match ID:** {match_id}
 
 🔥 Good luck to both teams!
